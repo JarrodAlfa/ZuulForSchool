@@ -4,12 +4,13 @@ class Game
 {
 	// Private fields
 	private Parser parser;
-	private Room currentRoom;
+	private Player player;
 
 	// Constructor
 	public Game()
 	{
 		parser = new Parser();
+		player = new Player();
 		CreateRooms();
 	}
 
@@ -53,7 +54,7 @@ class Game
 		// ...
 
 		// Start game outside
-		currentRoom = outside;
+		player.CurrentRoom = outside;
 	}
 
 	//  Main play routine. Loops until end of play.
@@ -82,7 +83,7 @@ class Game
 		Console.WriteLine("Zuul is a new, incredibly boring adventure game.");
 		Console.WriteLine("Type 'help' if you need help.");
 		Console.WriteLine();
-		Console.WriteLine(currentRoom.GetLongDescription());
+		Console.WriteLine(player.CurrentRoom.GetLongDescription());
 	}
 
 	// Given a command, process (that is: execute) the command.
@@ -107,7 +108,7 @@ class Game
 				GoRoom(command);
 				break;
 			case "look":
-				Console.WriteLine(currentRoom.GetLongDescription());
+				Console.WriteLine(player.CurrentRoom.GetLongDescription());
 				break;
 			case "quit":
 				wantToQuit = true;
@@ -146,14 +147,14 @@ class Game
 		string direction = command.SecondWord;
 
 		// Try to go to the next room.
-		Room nextRoom = currentRoom.GetExit(direction);
+		Room nextRoom = player.CurrentRoom.GetExit(direction);
 		if (nextRoom == null)
 		{
 			Console.WriteLine("There is no door to "+direction+"!");
 			return;
 		}
 
-		currentRoom = nextRoom;
-		Console.WriteLine(currentRoom.GetLongDescription());
+		player.CurrentRoom = nextRoom;
+		Console.WriteLine(player.CurrentRoom.GetLongDescription());
 	}
 }
