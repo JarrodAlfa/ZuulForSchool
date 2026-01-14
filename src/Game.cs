@@ -69,6 +69,10 @@ class Game
 		{
 			Command command = parser.GetCommand();
 			finished = ProcessCommand(command);
+			if (!player.isAlive())
+			{
+				finished = true;
+			}
 		}
 		Console.WriteLine("Thank you for playing.");
 		Console.WriteLine("Press [Enter] to continue.");

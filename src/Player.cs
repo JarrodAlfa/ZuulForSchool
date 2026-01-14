@@ -20,18 +20,20 @@ class Player
     public void Heal(int amount)
     {
         health += amount;
+        if (health > 100)
+        {
+            health = 100;
+        }
     }
 
-    public void isAlive()
+    public bool isAlive()
     {
         if (health <= 0)
         {
-            //dood
+            return false;
         }
-        else if (health >= 0)
-        {
-            //levend
-        }
+
+        return true;
     }
     
     public void StatusCheck()
