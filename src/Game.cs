@@ -110,6 +110,9 @@ class Game
 			case "look":
 				Console.WriteLine(player.CurrentRoom.GetLongDescription());
 				break;
+			case "status":
+				player.StatusCheck();
+				break;
 			case "quit":
 				wantToQuit = true;
 				break;
@@ -156,5 +159,6 @@ class Game
 
 		player.CurrentRoom = nextRoom;
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());
+		player.Damage(1);
 	}
 }

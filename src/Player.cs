@@ -14,6 +14,7 @@ class Player
     public void Damage(int amount)
     {
         health -= amount;
+        Console.WriteLine("You took " + amount + " damage" );
     }
 
     public void Heal(int amount)
@@ -31,5 +32,10 @@ class Player
         {
             //levend
         }
+    }
+    
+    public void StatusCheck()
+    {
+        Console.WriteLine("Your health is at "+health);
     }
 }
