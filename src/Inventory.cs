@@ -20,15 +20,13 @@ class Inventory
         
         return false;
     }
+    //method om een gekozen item uit je inventory te verwijderen
     public Item Get(string itemName)
     {
-//  implementeer:
-// Zoek Item in de Dictionary
-// Verwijder Item uit Dictionary (als gevonden)
-// Return Item of null
+        items.Remove(itemName);
         return null;
     }
-    
+    //deze method telt al het gewicht van de items in je inventory op
     public int TotalWeight()
     {
         int total = 0;
@@ -39,19 +37,19 @@ class Inventory
         }
         return total;
     }
+    //method telt op hoeveel je nog kan dragen in je inventory
     public int FreeWeight()
     {
-//  implementeer:
-// Vergelijk MaxWeight en TotalWeight()
-        return 0;
+        return maxWeight - TotalWeight();
     }
-
+    
     public void Print()
     {
+        Console.WriteLine("Your bag weighs "+TotalWeight()+"kg");
+        Console.WriteLine("You can store "+FreeWeight()+"kg of items");
+        Console.WriteLine("You have:");
         foreach (KeyValuePair<string, Item> item in items)
         {
-            Console.WriteLine("Your bag weighs "+TotalWeight()+"kg");
-            Console.WriteLine("You have:");
             Console.WriteLine(item.Key);
         }
     }

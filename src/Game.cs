@@ -52,9 +52,11 @@ class Game
 
 		// Create your Items here
 		Item book = new Item(1, "this is a book");
+		Item laptop = new Item(5, "this is a laptop");
 		// And add them to the Rooms
 		// ...
 		inventory.Put("book", book);
+		inventory.Put("laptop", laptop);
 		// Start game outside
 		player.CurrentRoom = outside;
 	}
