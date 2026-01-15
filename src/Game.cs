@@ -5,12 +5,14 @@ class Game
 	// Private fields
 	private Parser parser;
 	private Player player;
+	private Inventory inventory;
 
 	// Constructor
 	public Game()
 	{
 		parser = new Parser();
 		player = new Player();
+		inventory = new Inventory(20);
 		CreateRooms();
 	}
 
@@ -49,10 +51,10 @@ class Game
 		office.AddExit("west", lab);
 
 		// Create your Items here
-		// ...
+		Item book = new Item(1, "this is a book");
 		// And add them to the Rooms
 		// ...
-
+		inventory.Put("book", book);
 		// Start game outside
 		player.CurrentRoom = outside;
 	}
@@ -88,6 +90,7 @@ class Game
 		Console.WriteLine("Type 'help' if you need help.");
 		Console.WriteLine();
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());
+
 	}
 
 	// Given a command, process (that is: execute) the command.
@@ -116,6 +119,9 @@ class Game
 				break;
 			case "status":
 				player.StatusCheck();
+				break;
+			case "inventory":
+				inventory.Print();
 				break;
 			case "quit":
 				wantToQuit = true;
