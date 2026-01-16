@@ -42,12 +42,9 @@ class Inventory
     {
         return maxWeight - TotalWeight();
     }
-    
-    public void Print()
+
+    public void List()
     {
-        Console.WriteLine("Your bag weighs "+TotalWeight()+"kg");
-        Console.WriteLine("You can store "+FreeWeight()+"kg of items");
-        Console.WriteLine("You have:");
         foreach (KeyValuePair<string, Item> item in items)
         {
             Console.WriteLine(item.Key);

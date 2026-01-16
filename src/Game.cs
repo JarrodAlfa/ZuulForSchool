@@ -5,14 +5,12 @@ class Game
 	// Private fields
 	private Parser parser;
 	private Player player;
-	private Inventory inventory;
 
 	// Constructor
 	public Game()
 	{
 		parser = new Parser();
 		player = new Player();
-		inventory = new Inventory(20);
 		CreateRooms();
 	}
 
@@ -53,10 +51,11 @@ class Game
 		// Create your Items here
 		Item book = new Item(1, "this is a book");
 		Item laptop = new Item(5, "this is a laptop");
+		Item phone = new Item(1, "this is a phone");
 		// And add them to the Rooms
-		// ...
-		inventory.Put("book", book);
-		inventory.Put("laptop", laptop);
+		labbasement.Chest.Put("book", book);
+		office.Chest.Put("laptop", laptop);
+		player.Backpack.Put("phone", phone);
 		// Start game outside
 		player.CurrentRoom = outside;
 	}
@@ -123,7 +122,7 @@ class Game
 				player.StatusCheck();
 				break;
 			case "inventory":
-				inventory.Print();
+				player.Print();
 				break;
 			case "quit":
 				wantToQuit = true;
