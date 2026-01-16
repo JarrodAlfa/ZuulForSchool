@@ -1,37 +1,43 @@
 class Inventory
 {
 // fields
-    private int maxWeight;
-    private Dictionary<string, Item> items;
+    private int _maxWeight;
+    private Dictionary<string, Item> _items;
 // constructor
     public Inventory(int maxWeight)
     {
-        this.maxWeight = maxWeight;
-        this.items = new Dictionary<string, Item>();
+        this._maxWeight = maxWeight;
+        this._items = new Dictionary<string, Item>();
     }
 // methods
     public bool Put(string itemName, Item item)
     {
-        if ((maxWeight - item.Weight) >= 0)
+        if (item.Weight > FreeWeight())
         {
-            items.Add(itemName, item);
-            return true;
+            return false;
         }
-        
-        return false;
+
+        _items[itemName] = item;
+        return true;
     }
     //method om een gekozen item uit je inventory te verwijderen
     public Item Get(string itemName)
     {
-        items.Remove(itemName);
-        return null;
+        if (!_items.ContainsKey(itemName))
+        {
+            return null;
+        }
+
+        Item item = _items[itemName];
+        _items.Remove(itemName);
+        return item;
     }
     //deze method telt al het gewicht van de items in je inventory op
     public int TotalWeight()
     {
         int total = 0;
 
-        foreach (KeyValuePair<string, Item> item in items)
+        foreach (KeyValuePair<string, Item> item in _items)
         {
             total += item.Value.Weight;
         }
@@ -40,14 +46,11 @@ class Inventory
     //method telt op hoeveel je nog kan dragen in je inventory
     public int FreeWeight()
     {
-        return maxWeight - TotalWeight();
+        return _maxWeight - TotalWeight();
     }
-
-    public void List()
+    
+    public string Show()
     {
-        foreach (KeyValuePair<string, Item> item in items)
-        {
-            Console.WriteLine(item.Key);
-        }
+        return string.Join(", ", _items.Keys);
     }
 }

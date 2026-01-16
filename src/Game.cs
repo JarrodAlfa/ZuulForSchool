@@ -1,16 +1,14 @@
-using System;
-
 class Game
 {
 	// Private fields
-	private Parser parser;
-	private Player player;
+	private Parser _parser;
+	private Player _player;
 
 	// Constructor
 	public Game()
 	{
-		parser = new Parser();
-		player = new Player();
+		_parser = new Parser();
+		_player = new Player();
 		CreateRooms();
 	}
 
@@ -55,9 +53,9 @@ class Game
 		// And add them to the Rooms
 		labbasement.Chest.Put("book", book);
 		office.Chest.Put("laptop", laptop);
-		player.Backpack.Put("phone", phone);
+		pubfloor1.Chest.Put("phone", phone);
 		// Start game outside
-		player.CurrentRoom = outside;
+		_player.CurrentRoom = outside;
 	}
 
 	//  Main play routine. Loops until end of play.
@@ -70,9 +68,9 @@ class Game
 		bool finished = false;
 		while (!finished)
 		{
-			Command command = parser.GetCommand();
+			Command command = _parser.GetCommand();
 			finished = ProcessCommand(command);
-			if (!player.isAlive())
+			if (!_player.IsAlive())
 			{
 				finished = true;
 			}
@@ -90,7 +88,7 @@ class Game
 		Console.WriteLine("Zuul is a new, incredibly boring adventure game.");
 		Console.WriteLine("Type 'help' if you need help.");
 		Console.WriteLine();
-		Console.WriteLine(player.CurrentRoom.GetLongDescription());
+		Console.WriteLine(_player.CurrentRoom.GetLongDescription());
 
 	}
 
@@ -116,13 +114,19 @@ class Game
 				GoRoom(command);
 				break;
 			case "look":
-				Console.WriteLine(player.CurrentRoom.GetLongDescription());
+				Console.WriteLine(_player.CurrentRoom.GetLongDescription());
+				Console.Write("Contains: "+_player.CurrentRoom.Chest.Show());
 				break;
 			case "status":
-				player.StatusCheck();
+				Console.WriteLine("Your health is at "+_player.GetHealth());
 				break;
 			case "inventory":
-				player.Print();
+				Console.WriteLine("Your bag weighs "+_player.GetTotalWeight()+"kg");
+				Console.WriteLine("You can store "+_player.GetFreeWeight()+"kg of items");
+				Console.WriteLine("You have: "+_player.AllItems());
+				break;
+			case "take":
+				_player.TakeFromChest(command.SecondWord);
 				break;
 			case "quit":
 				wantToQuit = true;
@@ -144,7 +148,7 @@ class Game
 		Console.WriteLine("You wander around at the university.");
 		Console.WriteLine();
 		// let the parser print the commands
-		parser.PrintValidCommands();
+		_parser.PrintValidCommands();
 	}
 
 	// Try to go to one direction. If there is an exit, enter the new
@@ -161,15 +165,15 @@ class Game
 		string direction = command.SecondWord;
 
 		// Try to go to the next room.
-		Room nextRoom = player.CurrentRoom.GetExit(direction);
+		Room nextRoom = _player.CurrentRoom.GetExit(direction);
 		if (nextRoom == null)
 		{
 			Console.WriteLine("There is no door to "+direction+"!");
 			return;
 		}
 
-		player.CurrentRoom = nextRoom;
-		Console.WriteLine(player.CurrentRoom.GetLongDescription());
-		player.Damage(1);
+		_player.CurrentRoom = nextRoom;
+		Console.WriteLine(_player.CurrentRoom.GetLongDescription());
+		_player.Damage(1);
 	}
 }

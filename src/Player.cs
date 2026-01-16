@@ -3,25 +3,24 @@ class Player
     // auto property
     public Room CurrentRoom { get; set; }
 
-    private int health;
+    private int _health;
 
-    private Inventory backpack;
-
-    public Inventory Backpack
-    {
-        get { return backpack; }
-    }
+    private Inventory _backpack;
     // constructor
     public Player()
     {
-        backpack = new Inventory(25);
+        _backpack = new Inventory(25);
         CurrentRoom = null;
-        health = 100;
+        _health = 100;
+        Item pen = new Item(1, "this is a pen");
+        Item paper = new Item(1, "this is a sheet of paper");
+        _backpack.Put("pen", pen);
+        _backpack.Put("paper", paper);
     }
     // methods
     public void Damage(int amount)
     {
-        health -= amount;
+        _health -= amount;
         Console.WriteLine("You took " + amount + " damage" );
     }
 
@@ -34,21 +33,25 @@ class Player
 // Past het Item niet? Zet het terug in de chest
 // Laat de speler weten wat er gebeurt
 // Return true/false voor succes/mislukt
-        return false;
+        Item item = CurrentRoom.Chest.Get(itemName);
+
+        CurrentRoom.Chest.Get(itemName);
+        _backpack.Put(itemName, item);
+        return true;
     }
 
     public void Heal(int amount)
     {
-        health += amount;
-        if (health > 100)
+        _health += amount;
+        if (_health > 100)
         {
-            health = 100;
+            _health = 100;
         }
     }
 
-    public bool isAlive()
+    public bool IsAlive()
     {
-        if (health <= 0)
+        if (_health <= 0)
         {
             return false;
         }
@@ -56,16 +59,23 @@ class Player
         return true;
     }
     
-    public void StatusCheck()
+    public int GetHealth()
     {
-        Console.WriteLine("Your health is at "+health);
+        return _health;
     }
-    
-    public void Print()
+
+    public int GetTotalWeight()
     {
-        Console.WriteLine("Your bag weighs "+backpack.TotalWeight()+"kg");
-        Console.WriteLine("You can store "+backpack.FreeWeight()+"kg of items");
-        Console.WriteLine("You have:");
-        backpack.List();
+        return _backpack.TotalWeight();
+    }
+
+    public int GetFreeWeight()
+    {
+        return _backpack.FreeWeight();
+    }
+
+    public string AllItems()
+    {
+        return _backpack.Show();
     }
 }
