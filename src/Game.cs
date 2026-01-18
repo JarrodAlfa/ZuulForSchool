@@ -130,6 +130,9 @@ class Game
 			case "take":
 				Take(command);
 				break;
+			case "drop":
+				Drop(command);
+				break;
 			case "quit":
 				wantToQuit = true;
 				break;
@@ -176,6 +179,32 @@ class Game
 		else if (reason == "tooheavy")
 		{
 			Console.WriteLine(command.SecondWord+" is too heavy");
+		}
+	}
+	
+	private void Drop(Command command)
+	{
+		if(!command.HasSecondWord())
+		{
+			// if there is no second word, we don't know where to go...
+			Console.WriteLine("Drop what?");
+			return;
+		}
+		
+		string reason;
+		bool success = _player.DropToChest(command.SecondWord, out reason);
+		
+		if (success)
+		{
+			Console.WriteLine("You dropped: "+command.SecondWord);
+		}
+		else if (reason == "notfound")
+		{
+			Console.WriteLine(command.SecondWord+" isn't here");
+		}
+		else if (reason == "toofull")
+		{
+			Console.WriteLine("this room is too full");
 		}
 	}
 	// Try to go to one direction. If there is an exit, enter the new

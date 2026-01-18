@@ -24,6 +24,7 @@ class Player
         Console.WriteLine("You took " + amount + " damage" );
     }
 
+    //method om de gekozen item uit de huidige kamer chest te halen returnt of het gelukt is en om welke reden het kan falen
     public bool TakeFromChest(string itemName, out string reason)
     {
         reason = "";
@@ -46,15 +47,26 @@ class Player
         _backpack.Put(itemName, item);
         return true;
     }
-    public bool DropToChest(string itemName)
+    public bool DropToChest(string itemName, out string reason)
     {
-// TODO implementeer:
-// Haal Item uit je backpack
-// Zet het in de Room
-// Bekijk de return values
-// Laat de speler weten wat er gebeurt
-// Return true/false voor succes/mislukt
-        return false;
+        reason = "";
+        Item item = _backpack.Get(itemName);
+
+        if (item == null)
+        {
+            reason = "notfound";
+            return false;
+        }
+
+        if (item.Weight > CurrentRoom.Chest.FreeWeight())
+        {
+            _backpack.Put(itemName, item);
+            reason = "toofull";
+            return false;
+        }
+        
+        CurrentRoom.Chest.Put(itemName, item);
+        return true;
     }
     public void Heal(int amount)
     {
