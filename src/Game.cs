@@ -47,10 +47,10 @@ class Game
 		office.AddExit("west", lab);
 
 		// Create your Items here
-		Item book = new Item(1, "this is a book");
-		Item laptop = new Item(5, "this is a laptop");
-		Item phone = new Item(1, "this is a phone");
-		Item chair = new Item(10, "this is a chair");
+		Item book = new Item(1, "this is a book", "You read the book");
+		Item laptop = new Item(5, "this is a laptop", "You opened the laptop, no new emails thoug");
+		Item phone = new Item(1, "this is a phone", "You unlock your phone there are no new messages though");
+		Item chair = new Item(10, "this is a chair", "You decide to sit down for a minute");
 		// And add them to the Rooms
 		labbasement.Chest.Put("book", book);
 		labbasement.Chest.Put("chair", chair);
@@ -133,6 +133,9 @@ class Game
 			case "drop":
 				Drop(command);
 				break;
+			case "use":
+				Use(command);
+				break;
 			case "quit":
 				wantToQuit = true;
 				break;
@@ -156,6 +159,17 @@ class Game
 		_parser.PrintValidCommands();
 	}
 
+	private void Use(Command command)
+	{
+		if(!command.HasSecondWord())
+		{
+			// if there is no second word, we don't know where to go...
+			Console.WriteLine("Use what?");
+			return;
+		}
+		
+		Console.WriteLine(_player.Use(command.SecondWord));
+	}
 	private void Take(Command command)
 	{
 		if(!command.HasSecondWord())

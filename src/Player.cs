@@ -12,8 +12,8 @@ class Player
         _backpack = new Inventory(5);
         CurrentRoom = null;
         _health = 100;
-        Item pen = new Item(1, "this is a pen");
-        Item paper = new Item(1, "this is a sheet of paper");
+        Item pen = new Item(1, "this is a pen", "You click the pen a few times");
+        Item paper = new Item(1, "this is a sheet of paper", "You fold a paper airplane");
         _backpack.Put("pen", pen);
         _backpack.Put("paper", paper);
     }
@@ -105,5 +105,27 @@ class Player
     public string ShowInventory()
     {
         return _backpack.Show();
+    }
+
+    public string Use(string itemName)
+    {
+        Item item = _backpack.Get(itemName);
+
+        if (item == null)
+        {
+            return "You dont have that item";
+        }
+
+        if (item.Description.Contains("this is a sheet of paper"))
+        {
+            Item paperplane = new Item(1, "this is a paper airplane", "You threw the paper airplane");
+            _backpack.Put("paperplane",paperplane);
+        }
+
+        if (item.Description.Contains("this is a pen"))
+        {
+            _backpack.Put(itemName, item);
+        }
+        return item.Usemessage;
     }
 }
