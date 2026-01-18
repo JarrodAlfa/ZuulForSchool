@@ -9,7 +9,7 @@ class Player
     // constructor
     public Player()
     {
-        _backpack = new Inventory(5);
+        _backpack = new Inventory(25);
         CurrentRoom = null;
         _health = 100;
         Item pen = new Item(1, "this is a pen", "You click the pen a few times");

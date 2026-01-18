@@ -163,7 +163,6 @@ class Game
 	{
 		if(!command.HasSecondWord())
 		{
-			// if there is no second word, we don't know where to go...
 			Console.WriteLine("Use what?");
 			return;
 		}
@@ -174,7 +173,6 @@ class Game
 	{
 		if(!command.HasSecondWord())
 		{
-			// if there is no second word, we don't know where to go...
 			Console.WriteLine("Take what?");
 			return;
 		}
@@ -200,7 +198,6 @@ class Game
 	{
 		if(!command.HasSecondWord())
 		{
-			// if there is no second word, we don't know where to go...
 			Console.WriteLine("Drop what?");
 			return;
 		}
