@@ -50,8 +50,10 @@ class Game
 		Item book = new Item(1, "this is a book");
 		Item laptop = new Item(5, "this is a laptop");
 		Item phone = new Item(1, "this is a phone");
+		Item chair = new Item(10, "this is a chair");
 		// And add them to the Rooms
 		labbasement.Chest.Put("book", book);
+		labbasement.Chest.Put("chair", chair);
 		office.Chest.Put("laptop", laptop);
 		pubfloor1.Chest.Put("phone", phone);
 		// Start game outside
@@ -115,7 +117,7 @@ class Game
 				break;
 			case "look":
 				Console.WriteLine(_player.CurrentRoom.GetLongDescription());
-				Console.Write("Contains: "+_player.CurrentRoom.Chest.Show());
+				Console.WriteLine("Contains: "+_player.CurrentRoom.Chest.Show());
 				break;
 			case "status":
 				Console.WriteLine("Your health is at "+_player.GetHealth());
@@ -123,10 +125,10 @@ class Game
 			case "inventory":
 				Console.WriteLine("Your bag weighs "+_player.GetTotalWeight()+"kg");
 				Console.WriteLine("You can store "+_player.GetFreeWeight()+"kg of items");
-				Console.WriteLine("You have: "+_player.AllItems());
+				Console.WriteLine("You have: "+_player.ShowInventory());
 				break;
 			case "take":
-				_player.TakeFromChest(command.SecondWord);
+				Take(command);
 				break;
 			case "quit":
 				wantToQuit = true;
@@ -151,6 +153,31 @@ class Game
 		_parser.PrintValidCommands();
 	}
 
+	private void Take(Command command)
+	{
+		if(!command.HasSecondWord())
+		{
+			// if there is no second word, we don't know where to go...
+			Console.WriteLine("Take what?");
+			return;
+		}
+		
+		string reason;
+		bool success = _player.TakeFromChest(command.SecondWord, out reason);
+		
+		if (success)
+		{
+			Console.WriteLine("You took: "+command.SecondWord);
+		}
+		else if (reason == "notfound")
+		{
+			Console.WriteLine(command.SecondWord+" isn't here");
+		}
+		else if (reason == "tooheavy")
+		{
+			Console.WriteLine(command.SecondWord+" is too heavy");
+		}
+	}
 	// Try to go to one direction. If there is an exit, enter the new
 	// room, otherwise print an error message.
 	private void GoRoom(Command command)

@@ -9,7 +9,7 @@ class Player
     // constructor
     public Player()
     {
-        _backpack = new Inventory(25);
+        _backpack = new Inventory(5);
         CurrentRoom = null;
         _health = 100;
         Item pen = new Item(1, "this is a pen");
@@ -24,22 +24,38 @@ class Player
         Console.WriteLine("You took " + amount + " damage" );
     }
 
-    public bool TakeFromChest(string itemName)
+    public bool TakeFromChest(string itemName, out string reason)
     {
-// TODO implementeer:
-// Haal het Item uit de Room
-// Zet het in je backpack
-// Bekijk de return values
-// Past het Item niet? Zet het terug in de chest
-// Laat de speler weten wat er gebeurt
-// Return true/false voor succes/mislukt
+        reason = "";
+        
         Item item = CurrentRoom.Chest.Get(itemName);
 
-        CurrentRoom.Chest.Get(itemName);
+        if (item == null)
+        {
+            reason = "notfound";
+            return false;
+        }
+        
+        if (item.Weight > _backpack.FreeWeight())
+        {
+            CurrentRoom.Chest.Put(itemName, item);
+            reason = "tooheavy";
+            return false;
+        }
+
         _backpack.Put(itemName, item);
         return true;
     }
-
+    public bool DropToChest(string itemName)
+    {
+// TODO implementeer:
+// Haal Item uit je backpack
+// Zet het in de Room
+// Bekijk de return values
+// Laat de speler weten wat er gebeurt
+// Return true/false voor succes/mislukt
+        return false;
+    }
     public void Heal(int amount)
     {
         _health += amount;
@@ -74,7 +90,7 @@ class Player
         return _backpack.FreeWeight();
     }
 
-    public string AllItems()
+    public string ShowInventory()
     {
         return _backpack.Show();
     }

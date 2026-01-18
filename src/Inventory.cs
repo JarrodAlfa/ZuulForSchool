@@ -23,14 +23,14 @@ class Inventory
     //method om een gekozen item uit je inventory te verwijderen
     public Item Get(string itemName)
     {
-        if (!_items.ContainsKey(itemName))
+        if (_items.ContainsKey(itemName))
         {
-            return null;
+            Item item = _items[itemName];
+            _items.Remove(itemName);
+            return item;
         }
 
-        Item item = _items[itemName];
-        _items.Remove(itemName);
-        return item;
+        return null;
     }
     //deze method telt al het gewicht van de items in je inventory op
     public int TotalWeight()
