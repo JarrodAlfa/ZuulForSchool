@@ -11,7 +11,7 @@ class CommandLibrary
 		validCommands = new List<string>();
 
 		validCommands.Add("help");
-		validCommands.Add("go");
+		validCommands.Add("loop");
 		validCommands.Add("quit");
 		validCommands.Add("look");
 		validCommands.Add("status");

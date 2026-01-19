@@ -35,7 +35,7 @@ class Room
 	//     Exits: north, west
 	public string GetLongDescription()
 	{
-		string str = "You are ";
+		string str = "Je bent ";
 		str += _description;
 		str += ".\n";
 		str += GetExitString();
@@ -57,7 +57,7 @@ class Room
 	// "Exits: north, west".
 	private string GetExitString()
 	{
-		string str = "Exits: ";
+		string str = "Je kan naar: ";
 		str += String.Join(", ", _exits.Keys);
 
 		return str;

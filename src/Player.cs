@@ -7,21 +7,21 @@ class Player
 
     private Inventory _backpack;
     // constructor
+    public Inventory Backpack
+    {
+        get { return _backpack; }
+    }
     public Player()
     {
         _backpack = new Inventory(25);
         CurrentRoom = null;
         _health = 100;
-        Item pen = new Item(1, "this is a pen", "You click the pen a few times");
-        Item paper = new Item(1, "this is a sheet of paper", "You fold a paper airplane");
-        _backpack.Put("pen", pen);
-        _backpack.Put("paper", paper);
     }
     // methods
     public void Damage(int amount)
     {
         _health -= amount;
-        Console.WriteLine("You took " + amount + " damage" );
+        Console.WriteLine("Je hebt " + amount + " damage opgelopen" );
     }
 
     //method om de gekozen item uit de huidige kamer chest te halen returnt of het gelukt is en om welke reden het kan falen
@@ -116,16 +116,16 @@ class Player
             return "You dont have that item";
         }
 
-        if (item.Description.Contains("this is a sheet of paper"))
+        if (item.Description.Contains("een croissant"))
         {
-            Item paperplane = new Item(1, "this is a paper airplane", "You threw the paper airplane");
-            _backpack.Put("paperplane",paperplane);
+            Heal(5);
+        }
+        
+        if (item.Description.Contains("een broodje gezond"))
+        {
+            Heal(10);
         }
 
-        if (item.Description.Contains("this is a pen"))
-        {
-            _backpack.Put(itemName, item);
-        }
         return item.Usemessage;
     }
 }

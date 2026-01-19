@@ -1,15 +1,15 @@
 class Inventory
 {
-// fields
+    // fields
     private int _maxWeight;
     private Dictionary<string, Item> _items;
-// constructor
+    // constructor
     public Inventory(int maxWeight)
     {
         this._maxWeight = maxWeight;
         this._items = new Dictionary<string, Item>();
     }
-// methods
+    // methods
     public bool Put(string itemName, Item item)
     {
         if (item.Weight > FreeWeight())
